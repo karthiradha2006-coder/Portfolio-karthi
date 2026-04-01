@@ -1,0 +1,114 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "gpuType": "T4",
+      "authorship_tag": "ABX9TyMY7NsDJ6IpGPy+cDcsaoh5",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    },
+    "accelerator": "GPU"
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/karthiradha2006-coder/Portfolio-karthi/blob/main/simple%20linear%20regression%20without%20using%20libraray\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "qS29UkFpJTCS",
+        "outputId": "bc1e28e7-0d12-4685-d247-33aadc0a6bd3"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Converged at epoch: 808\n",
+            "Slope (m): 1.078465192592404\n",
+            "Intercept (c): 4.716715757870633\n",
+            "Final Cost: 0.014706170979244745\n",
+            "Prediction for x=6: 11.187506913425057\n"
+          ]
+        }
+      ],
+      "source": [
+        "# Data\n",
+        "x = [1, 2, 3, 4, 5]\n",
+        "y = [6, 7, 8, 9, 10]\n",
+        "\n",
+        "n = len(x)\n",
+        "\n",
+        "# Initial values\n",
+        "m = 0   # slope\n",
+        "c = 0   # intercept\n",
+        "\n",
+        "learning_rate = 0.01\n",
+        "epochs = 1000\n",
+        "\n",
+        "prev_cost = 0\n",
+        "\n",
+        "for epoch in range(epochs):\n",
+        "    total_loss = 0\n",
+        "    dm = 0\n",
+        "    dc = 0\n",
+        "\n",
+        "    for i in range(n):\n",
+        "        # prediction\n",
+        "        y_pred = m * x[i] + c\n",
+        "\n",
+        "        # loss (one point)\n",
+        "        loss = (y[i] - y_pred) ** 2\n",
+        "        total_loss += loss\n",
+        "\n",
+        "        # gradients\n",
+        "        dm += (-2/n) * x[i] * (y[i] - y_pred)\n",
+        "        dc += (-2/n) * (y[i] - y_pred)\n",
+        "\n",
+        "    # cost (average loss)\n",
+        "    cost = total_loss / n\n",
+        "\n",
+        "    # update\n",
+        "    m = m - learning_rate * dm\n",
+        "    c = c - learning_rate * dc\n",
+        "\n",
+        "    # convergence check\n",
+        "    if abs(prev_cost - cost) < 0.0001:\n",
+        "        print(\"Converged at epoch:\", epoch)\n",
+        "        break\n",
+        "\n",
+        "    prev_cost = cost\n",
+        "\n",
+        "# Output\n",
+        "print(\"Slope (m):\", m)\n",
+        "print(\"Intercept (c):\", c)\n",
+        "print(\"Final Cost:\", cost)\n",
+        "\n",
+        "# Prediction\n",
+        "def predict(x_val):\n",
+        "    return m * x_val + c\n",
+        "\n",
+        "print(\"Prediction for x=6:\", predict(6))"
+      ]
+    }
+  ]
+}
